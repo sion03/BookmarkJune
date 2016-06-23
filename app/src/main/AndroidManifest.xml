@@ -14,7 +14,7 @@
             android:value="memo.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="1" />
+            android:value="2" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MemoCreateActivity"></activity>
+        <activity android:name=".MemoCreateActivity" />
+        <activity android:name=".MemoDetailActivity"></activity>
     </application>
 
 </manifest>

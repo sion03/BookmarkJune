@@ -7,12 +7,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.lifeistech.android.bookmarkjune.MainActivity">
+    tools:context="com.lifeistech.android.bookmarkjune.MemoDetailActivity">
 
-    <ListView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/memo_list"
+        android:id="@+id/detail_title"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
+        android:hint="title"
+        android:gravity="left|top" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/detail_memo"
+        android:layout_below="@+id/detail_title"
+        android:hint="memo"
+        android:layout_centerHorizontal="true"
+        android:gravity="left|top" />
 </RelativeLayout>

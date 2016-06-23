@@ -1,16 +1,20 @@
 package com.lifeistech.android.bookmarkjune;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import java.util.Date;
+import com.activeandroid.query.Select;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class MemoCreateActivity extends AppCompatActivity {
+public class MemoDetailActivity extends AppCompatActivity {
+
     MemoDB mMemoDB;
     EditText mTitle;
     EditText mMemo;
@@ -18,20 +22,19 @@ public class MemoCreateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_memo_create);
+        setContentView(R.layout.activity_memo_detail);
 
-        mTitle = (EditText) findViewById(R.id.create_title);
-        mMemo = (EditText) findViewById(R.id.create_memo);
-        mMemoDB = new MemoDB();
+        mTitle = (EditText) findViewById(R.id.detail_title);
+        mMemo = (EditText) findViewById(R.id.detail_memo);
+        setMemo();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionItemSelected(MenuItem item){
         int id = item.getItemId();
 
-        //saveボタンを押したら保存する
-        if (R.id.create_save == id){
-            saveMemo();
+        id(R.id.detail_save == id){
+            updateMemo();
             finish();
 
             return true;
@@ -39,18 +42,23 @@ public class MemoCreateActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //”保存する”の具体的な動作リスト
-    void saveMemo(){
-        //タイトル、本文を代入
-        mMemoDB.title = mTitle.getText().toString();
-        mMemoDB.memo = mMemo.getText().toString();
-        //更新日時を代入
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.JAPANESE);
-        mMemoDB.date = sdf.format(date);
-        //以上を保存する
-        mMemoDB.save();
+
+    void setMemo() {
+        Intent i = getIntent();
+        List<MemoDB> memoList = new Select().from(MemoDB.class).where("data=?",i.getStringExtra("date")).execute();
+
+        mMemoDB = memoList.get(0);
+        mTitle.setText(mMemoDB.title);
+        mMemo.setText(mMemoDB.memo);
     }
 
 
+    void updateMemo(){
+        mMemoDB.title = mTitle.getText().toString();
+        mMemoDB.memo = mMemo.getText().toString();
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.JAPANESE);
+        mMemoDB.date = sdf.format(date);
+        mMemoDB.save();
+    }
 }
